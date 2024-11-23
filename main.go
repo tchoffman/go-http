@@ -33,13 +33,13 @@ func countUp(w http.ResponseWriter, n int) {
 }
 
 func main() {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", getRoot)
+	mux.HandleFunc("/hello", getHello)
+	mux.HandleFunc("/countup", getCountUp)
 
-	http.HandleFunc("/", getRoot)
-	http.HandleFunc("/hello", getHello)
-	http.HandleFunc("/countup", getCountUp)
-
-	fmt.Println("Server is starting on port 80...")
-	err := http.ListenAndServe(":80", nil)
+	fmt.Println("Server is starting on port 8080...")
+	err := http.ListenAndServe(":8080", mux)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("Server Closed\n")
 	} else if err != nil {
